@@ -1,0 +1,9 @@
+﻿spring:
+  application:
+    name: communication-service
+  profiles:
+    active: h2
+server:
+  port: 8088
+  servlet:
+    context-path: /

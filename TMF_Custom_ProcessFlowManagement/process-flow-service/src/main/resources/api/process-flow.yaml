@@ -1,0 +1,267 @@
+﻿openapi: 3.0.3
+info:
+  title: Process Flow Management API
+  description: Orchestrates the complete subscription lifecycle across services.
+  version: 4.0.0
+servers:
+  - url: /tmf-api/processFlowManagement/v4
+paths:
+  /processFlow:
+    get:
+      summary: List or find ProcessFlow objects
+      operationId: listProcessFlow
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessFlow'
+    post:
+      summary: Creates a ProcessFlow
+      operationId: createProcessFlow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessFlowCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessFlow'
+  
+  /processExecution:
+    get:
+      summary: List or find ProcessExecution objects
+      operationId: listProcessExecution
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessExecution'
+    post:
+      summary: Creates a ProcessExecution (Triggers a flow)
+      operationId: createProcessExecution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProcessExecutionCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecution'
+
+  /processFlow/{id}:
+    get:
+      summary: Retrieve a ProcessFlow by ID
+      operationId: retrieveProcessFlow
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessFlow'
+        '404':
+          description: Not Found
+  
+  /processExecution/{id}:
+    get:
+      summary: Retrieve a ProcessExecution by ID
+      operationId: retrieveProcessExecution
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessExecution'
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    ProcessFlow:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+        processStep:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStep'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+    
+    ProcessFlowCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        processStep:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStep'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+
+    ProcessStep:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        stepOrder:
+          type: integer
+        targetApi:
+          type: string
+        retryInformation:
+          $ref: '#/components/schemas/RetryInformation'
+        compensationAction:
+          $ref: '#/components/schemas/CompensationAction'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+
+    RetryInformation:
+      type: object
+      properties:
+        maxRetries:
+          type: integer
+        currentRetries:
+          type: integer
+        nextRetryTime:
+          type: string
+          format: date-time
+        backoffStrategy:
+          type: string
+          
+    CompensationAction:
+      type: object
+      properties:
+        name:
+          type: string
+        targetApi:
+          type: string
+        payloadTemplate:
+          type: string
+          
+    ProcessExecution:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        processFlowId:
+          type: string
+        state:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        processContext:
+          type: object
+          additionalProperties:
+            type: object
+        processStepExecution:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessStepExecution'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+          
+    ProcessExecutionCreate:
+      type: object
+      properties:
+        processFlowId:
+          type: string
+        processContext:
+          type: object
+          additionalProperties:
+            type: object
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+
+    ProcessStepExecution:
+      type: object
+      properties:
+        id:
+          type: string
+        stepId:
+          type: string
+        state:
+          type: string
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        errorMessage:
+          type: string
+        retryInformation:
+          $ref: '#/components/schemas/RetryInformation'
+

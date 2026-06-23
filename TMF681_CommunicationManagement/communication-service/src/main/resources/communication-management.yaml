@@ -1,0 +1,223 @@
+openapi: 3.0.3
+info:
+  title: Communication Management API
+  description: API for managing outbound communications across multiple channels (SMS, Email, Push).
+  version: 4.0.0
+servers:
+  - url: http://localhost:8088/tmf-api/communicationManagement/v4
+paths:
+  /communicationMessage:
+    post:
+      summary: Creates a CommunicationMessage
+      operationId: createCommunicationMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationMessageCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationMessage'
+    get:
+      summary: List or find CommunicationMessage objects
+      operationId: listCommunicationMessage
+      parameters:
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: offset
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommunicationMessage'
+  /communicationMessage/{id}:
+    get:
+      summary: Retrieves a CommunicationMessage by ID
+      operationId: retrieveCommunicationMessage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationMessage'
+    patch:
+      summary: Updates partially a CommunicationMessage
+      operationId: patchCommunicationMessage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationMessageUpdate'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommunicationMessage'
+components:
+  schemas:
+    CommunicationChannel:
+      type: string
+      enum:
+        - EMAIL
+        - SMS
+        - PUSH
+    CommunicationTemplateRef:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        '@referredType':
+          type: string
+    Receiver:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        phoneNumber:
+          type: string
+        emailAddress:
+          type: string
+        '@referredType':
+          type: string
+    Characteristic:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        valueType:
+          type: string
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+    CommunicationMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        description:
+          type: string
+        sendTime:
+          type: string
+          format: date-time
+        state:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        receiver:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver'
+        template:
+          $ref: '#/components/schemas/CommunicationTemplateRef'
+        characteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+    CommunicationMessageCreate:
+      type: object
+      properties:
+        description:
+          type: string
+        subject:
+          type: string
+        content:
+          type: string
+        channel:
+          $ref: '#/components/schemas/CommunicationChannel'
+        receiver:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver'
+        template:
+          $ref: '#/components/schemas/CommunicationTemplateRef'
+        characteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+    CommunicationMessageUpdate:
+      type: object
+      properties:
+        state:
+          type: string
+        sendTime:
+          type: string
+          format: date-time
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string

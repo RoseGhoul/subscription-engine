@@ -1,0 +1,19 @@
+package com.subscriptionengine.productcatalog.infrastructure.persistence.entity;
+
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class BundledProductOfferingEmbeddable {
+    private String bundledOfferingId;
+    private String bundledOfferingHref;
+    private String bundledOfferingName;
+    private String bundledOfferingLifecycleStatus;
+}

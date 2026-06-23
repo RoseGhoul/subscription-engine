@@ -1,0 +1,12 @@
+target/
+node_modules/
+build/
+.idea/
+.vscode/
+*.class
+*.jar
+*.war
+.classpath
+.project
+.settings/
+.DS_Store

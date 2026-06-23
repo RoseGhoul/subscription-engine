@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/jio_product_order?createDatabaseIfNotExist=true&disableSslHostnameVerification=true
+    username: root
+    password: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    url: jdbc:mariadb://localhost:3306/jio_product_order?createDatabaseIfNotExist=true&disableSslHostnameVerification=true
+    user: root
+    password: mariadb
+    baseline-on-migrate: true
+
+logging:
+  level:
+    root: INFO
+    com.subscriptionengine: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: product-order-management
+    export:
+      prometheus:
+        enabled: true

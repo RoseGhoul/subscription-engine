@@ -1,0 +1,7 @@
+﻿spring:
+  application:
+    name: process-flow-service
+  profiles:
+    active: h2
+server:
+  port: 8089

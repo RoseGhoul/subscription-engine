@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/jio_product_inventory?createDatabaseIfNotExist=true&disableSslHostnameVerification=true
+    username: root
+    password: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    url: jdbc:mariadb://localhost:3306/jio_product_inventory?createDatabaseIfNotExist=true&disableSslHostnameVerification=true
+    user: root
+    password: mariadb
+
+logging:
+  level:
+    root: INFO
+    com.subscriptionengine: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: ERROR
