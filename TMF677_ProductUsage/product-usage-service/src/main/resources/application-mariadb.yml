@@ -13,3 +13,10 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+jio:
+  integration:
+    tmf637:
+      base-url: http://localhost:8084/tmf-api/productInventoryManagement/v4
+    tmf620:
+      base-url: http://localhost:8081/tmf-api/productCatalogManagement/v4

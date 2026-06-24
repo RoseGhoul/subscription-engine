@@ -50,6 +50,13 @@ public class UsageConsumptionPersistenceAdapter implements UsageConsumptionRepos
     }
 
     @Override
+    public List<UsageConsumption> findTotalUsageByProductId(String productId) {
+        return repository.findTotalUsageByProductId(productId).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<UsageConsumption> findAll() {
         return repository.findAll().stream()
                 .map(mapper::toDomain)

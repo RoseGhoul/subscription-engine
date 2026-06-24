@@ -20,6 +20,9 @@ public interface UsageConsumptionRepository extends JpaRepository<UsageConsumpti
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
+    @Query(value = "SELECT * FROM usage_consumption u WHERE u.product_ref LIKE %:productId%", nativeQuery = true)
+    List<UsageConsumptionJpaEntity> findTotalUsageByProductId(@Param("productId") String productId);
+
     @Query(value = "SELECT * FROM usage_consumption u WHERE u.related_party LIKE %:customerId%", nativeQuery = true)
     List<UsageConsumptionJpaEntity> findTotalUsageByCustomerId(@Param("customerId") String customerId);
 

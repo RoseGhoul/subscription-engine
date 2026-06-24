@@ -13,4 +13,5 @@ public interface UsageConsumptionRepositoryPort {
     Optional<UsageConsumption> findById(String id);
     List<UsageConsumption> findAll();
     Page<UsageConsumption> findAll(Pageable pageable);
+    List<UsageConsumption> findTotalUsageByProductId(String productId);
 }
